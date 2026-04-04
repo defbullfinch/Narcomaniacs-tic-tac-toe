@@ -25,17 +25,17 @@ public class StartWindow {
             levelsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Отступы от краев окна
 
             //блоки: кнопка + картинка
-            levelsPanel.add(createLevelBlock("Для дибилов", "src/dibil_static.jpg", "src/dibil.gif", () -> {
+            levelsPanel.add(createLevelBlock("Для дибилов", "src/images/level/dibil_static.jpg", "src/images/level/dibil.gif", () -> {
                 startFrame.dispose();
                 new GameWindow("Уровень для дибилов", 1);
             }));
 
-            levelsPanel.add(createLevelBlock("Нормальный", "src/normal_static.jpg", "src/normal.gif", () -> {
+            levelsPanel.add(createLevelBlock("Нормальный", "src/images/level/normal_static.jpg", "src/images/level/normal.gif", () -> {
                 startFrame.dispose();
                 new GameWindow("Нормальный уровень", 2);
             }));
 
-            levelsPanel.add(createLevelBlock("Эксперт", "src/sigma_static.jpg", "src/sigma.gif", () -> {
+            levelsPanel.add(createLevelBlock("Эксперт", "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
                 startFrame.dispose();
                 new GameWindow("Уровень Эксперт", 3);
             }));
