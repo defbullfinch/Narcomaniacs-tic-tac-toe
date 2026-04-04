@@ -174,9 +174,16 @@ public class BotLogic {
         if (PlayerProfile.activeTheme.equals("DEFAULT")) {
             btn.setText(symbol);
         } else {
-            String imagePath = "src/theme_" + PlayerProfile.activeTheme + "_" + symbol + ".png";
-            btn.setIcon(new ImageIcon(imagePath));
-            btn.setText(symbol); // Оставляем текст скрытым для логики проверок победы (важно!)
+            String imagePath = "src/images/themes/theme_" + PlayerProfile.activeTheme + "_" + symbol.toLowerCase() + ".png";
+
+            System.out.println("Пытаюсь загрузить: " + imagePath);
+            System.out.println("Файл реально существует? " + new java.io.File(imagePath).exists());
+
+            ImageIcon icon = new ImageIcon(imagePath);
+            btn.setIcon(icon);
+            btn.setDisabledIcon(icon); // Устанавливаем ту же яркую картинку для выключенного состояния
+            btn.setEnabled(false);
+            btn.setText(symbol);
             btn.setFont(new Font("Arial", Font.PLAIN, 0));
         }
     }

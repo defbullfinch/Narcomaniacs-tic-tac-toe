@@ -1,8 +1,5 @@
-import javax.swing.ImageIcon;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
+import javax.swing.*;
+import java.util.*;
 
 
 public class PlayerProfile {
@@ -30,14 +27,14 @@ public class PlayerProfile {
             String themeToUnlock;
             if (currentStreakLevels.size() > 1) {
                 // Если побеждал на разных уровнях — даем рандомную
-                String[] themes = {"М", "П", "Г"};
+                String[] themes = {"M", "P", "G"};
                 themeToUnlock = themes[new Random().nextInt(themes.length)];
             } else if (currentStreakLevels.contains(1)) {
-                themeToUnlock = "М"; // Для первого уровня
+                themeToUnlock = "M"; // Для дібіла
             } else if (currentStreakLevels.contains(2)) {
-                themeToUnlock = "П"; // Для второго уровня
+                themeToUnlock = "P"; // Для нормиса
             } else {
-                themeToUnlock = "Г"; // Для мастера
+                themeToUnlock = "G"; // Для мастера
             }
 
             unlockedThemes.add(themeToUnlock);
@@ -49,4 +46,31 @@ public class PlayerProfile {
             currentStreakLevels.clear();
         }
     }
+
+//    public static void unlockNewTheme() {
+//        // 1. Полный список всех существующих тем в игре
+//        String[] allThemes = {"M", "P", "G"};
+//
+//        // 2. Создаем список тем, которые игрок еще НЕ разблокировал
+//        List<String> lockedThemes = new ArrayList<>();
+//
+//        for (String theme : allThemes) {
+//            if (!unlockedThemes.contains(theme)) {
+//                lockedThemes.add(theme);
+//            }
+//        }
+//
+//        // 3. Если еще есть что разблокировать — выбираем рандомно из закрытых
+//        if (!lockedThemes.isEmpty()) {
+//            Random random = new Random();
+//            int index = random.nextInt(lockedThemes.size());
+//            String newTheme = lockedThemes.get(index);
+//
+//     //       unlockedThemes.add(newTheme);
+//     //       JOptionPane.showMessageDialog(null, "Разблокирована новая тема: " + newTheme + "!");
+//        } else {
+//            System.out.println("Все темы уже открыты. Пора искать секреты...");
+//            JOptionPane.showMessageDialog(null, "Все темы уже открыты! \n Пора искать секреты...");
+//        }
+//    }
 }
