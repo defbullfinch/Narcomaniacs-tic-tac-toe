@@ -49,10 +49,10 @@ public class PlayerProfile {
                 String themeToUnlock = availableToUnlock.get(new Random().nextInt(availableToUnlock.size()));
 
                 unlockedThemes.add(themeToUnlock);
-                System.out.println("УСПЕХ! Система выбрала и разблокировала тему: " + themeToUnlock);
-
-                System.out.println("Разблокирована тема: " + themeToUnlock + "!");
-                JOptionPane.showMessageDialog(null, "Разблокирована тема: " + themeToUnlock + "!");
+               // System.out.println("УСПЕХ! Система выбрала и разблокировала тему: " + themeToUnlock);
+               // System.out.println("Разблокирована тема: " + themeToUnlock + "!");
+               // JOptionPane.showMessageDialog(null, "Разблокирована тема: " + themeToUnlock + "!");
+                JOptionPane.showMessageDialog(null, LanguageManager.getText("unlock_msg") + themeToUnlock + "!");
                 System.out.println("Данные стрика очищены для нового цикла.");
                 winStreak = 0;
                 currentStreakLevels.clear();
