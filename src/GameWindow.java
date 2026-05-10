@@ -99,7 +99,7 @@ public class GameWindow extends JFrame {
         // Возвращаемся в меню через 1.5 секунды
         Timer timer = new Timer(1500, (ActionEvent e) -> {
             this.dispose();
-            StartWindow.createStartWindow();
+            StartWindow.showStartWindow();
         });
         timer.setRepeats(false);
         timer.start();
