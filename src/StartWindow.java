@@ -16,7 +16,7 @@ public class StartWindow {
             startFrame.setLocationRelativeTo(null);
             startFrame.setLayout(new BorderLayout());
 
-            JLabel label = new JLabel("Выберите уровень", SwingConstants.CENTER);
+            JLabel label = new JLabel(LanguageManager.getText("label_level_choice"), SwingConstants.CENTER);
             label.setFont(new Font("Arial", Font.BOLD, 20));
             startFrame.add(label, BorderLayout.NORTH);
 
@@ -25,40 +25,40 @@ public class StartWindow {
             levelsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Отступы от краев окна
 
             //блоки: кнопка + картинка
-            levelsPanel.add(createLevelBlock("Для дибилов", "src/images/level/dibil_static.jpg", "src/images/level/dibil.gif", () -> {
+            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_1"), "src/images/level/dibil_static.jpg", "src/images/level/dibil.gif", () -> {
                 startFrame.dispose();
-                new GameWindow("Уровень для дибилов", 1);
+                new GameWindow(LanguageManager.getText("level_1_gameWindow"), 1);
             }));
 
-            levelsPanel.add(createLevelBlock("Нормальный", "src/images/level/normal_static.jpg", "src/images/level/normal.gif", () -> {
+            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_2"), "src/images/level/normal_static.png", "src/images/level/normal.gif", () -> {
                 startFrame.dispose();
-                new GameWindow("Нормальный уровень", 2);
+                new GameWindow(LanguageManager.getText("level_2_gameWindow"), 2);
             }));
 
-            levelsPanel.add(createLevelBlock("Эксперт", "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
+            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_3_gameWindow"), "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
                 startFrame.dispose();
-                new GameWindow("Уровень Эксперт", 3);
+                new GameWindow(LanguageManager.getText("level_3_gameWindow"), 3);
             }));
 
             startFrame.add(levelsPanel, BorderLayout.CENTER);
 
             //НИЗ: Панель тем
             JPanel themePanel = new JPanel();
-            themePanel.setBorder(BorderFactory.createTitledBorder("Темы"));
+            themePanel.setBorder(BorderFactory.createTitledBorder(LanguageManager.getText("themes")));
 
             if (PlayerProfile.unlockedThemes.isEmpty()) {
-                JLabel lockLabel = new JLabel("\uD83D\uDD12 Будет доступно после 5 побед подряд");
+                JLabel lockLabel = new JLabel(LanguageManager.getText("lock_hint"));
                 themePanel.add(lockLabel);
             } else {
                 for (String theme : PlayerProfile.unlockedThemes) {
-                    JButton themeBtn = new JButton("Тема " + theme);
+                    JButton themeBtn = new JButton(LanguageManager.getText("theme") + theme);
                     themeBtn.addActionListener(e -> {
                         PlayerProfile.activeTheme = theme;
-                        JOptionPane.showMessageDialog(startFrame, "Выбрана тема: " + theme);
+                        JOptionPane.showMessageDialog(startFrame, (LanguageManager.getText("chosen_theme")) + theme);
                     });
                     themePanel.add(themeBtn);
                 }
-                JButton defaultBtn = new JButton("Обычная");
+                JButton defaultBtn = new JButton(LanguageManager.getText("default_"));
                 defaultBtn.addActionListener(e -> PlayerProfile.activeTheme = "DEFAULT");
                 themePanel.add(defaultBtn);
             }// Допустим, всего тем 3 (М, П, Г).
@@ -70,10 +70,9 @@ public class StartWindow {
                     startFrame.dispose();
                     new SecretGameWindow();
                 });
-                levelsPanel.add(secretBtn); // Добавляем на панель к уровням
+                levelsPanel.add(secretBtn);
             }
             startFrame.add(themePanel, BorderLayout.SOUTH);
-
             startFrame.setVisible(true);
         }
 

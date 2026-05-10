@@ -13,7 +13,7 @@ public class GameWindow extends JFrame {
 
     public GameWindow(String title, int level) {
         this.level = level;
-        setTitle(title + " | Стрик: " + PlayerProfile.winStreak);
+        setTitle(title + LanguageManager.getText("streak") + PlayerProfile.winStreak);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
@@ -61,14 +61,14 @@ public class GameWindow extends JFrame {
         if (GameLogic.checkWin(buttons, playerSymbol)) {
             System.out.println("ПОТУЖНА ПЄРЄМОГА!");
             PlayerProfile.addWin(level);
-            JOptionPane.showMessageDialog(this, "ПОТУЖНА ПЄРЄМОГА!");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("win_msg"));
             endGame();
             return;
         }
 
         //проверка ничьи
         if (GameLogic.isDraw(buttons)) {
-            JOptionPane.showMessageDialog(this, "Ничья.");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("draw_msg"));
             endGame();
             return; // Стрик НЕ сбрасываем
         }
@@ -82,14 +82,14 @@ public class GameWindow extends JFrame {
         if (GameLogic.checkWin(buttons, botSymbol)) {
             System.out.println("лошара:) 🫵");
             PlayerProfile.resetStreak();
-            JOptionPane.showMessageDialog(this, "лошара:) \uD83E\uDEF5");
+            JOptionPane.showMessageDialog(this,LanguageManager.getText("loose_msg") );
             endGame();
             return;
         }
 
         //проверка ничьи х2
         if (GameLogic.isDraw(buttons)) {
-            JOptionPane.showMessageDialog(this, "Ничья.");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("draw_msg"));
             endGame();
         }
     }
