@@ -11,7 +11,7 @@ public class StartWindow {
 
     // Главный метод запуска меню
     public static void showStartWindow() {
-        JFrame startFrame = new JFrame();
+        JFrame startFrame = new JFrame( PlayerProfile.winStreak+ " \uD83D\uDC40");
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startFrame.setSize(600, 450);
         startFrame.setLocationRelativeTo(null);
@@ -82,7 +82,7 @@ public class StartWindow {
                 new GameWindow(LanguageManager.getText("level_2_gameWindow"), 2);
             }));
 
-            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_3_gameWindow"), "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
+            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_3"), "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
                 startFrame.dispose();
                 new GameWindow(LanguageManager.getText("level_3_gameWindow"), 3);
             }));

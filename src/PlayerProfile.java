@@ -9,7 +9,7 @@ public class PlayerProfile {
 
     //тема по умолчанию (х/о)
     public static String activeTheme = "DEFAULT";
-
+    public static int secretLevelStage = 0;
     public static void addWin(int level) {
         winStreak++;
         currentStreakLevels.add(level);
@@ -21,6 +21,16 @@ public class PlayerProfile {
         currentStreakLevels.clear();
         System.out.println("Стрик сброшен до 0.");
     }
+    public enum SecretStage {
+        GENIUS("Гений"),
+        INVISIBLE("Невидимка"),
+        IMPOSSIBLE("Невозможно");
+
+        private final String title;
+        SecretStage(String title) { this.title = title; }
+        public String getTitle() { return title; }
+    }
+
     private static void checkUnlocks() {
 
         System.out.println("Текущий стрик: " + winStreak);
@@ -62,55 +72,4 @@ public class PlayerProfile {
             }
         }
     }
-//    private static void checkUnlocks() {
-//        if (winStreak == 5) {
-//            String themeToUnlock;
-//            if (currentStreakLevels.size() > 1) {
-//                // Если побеждал на разных уровнях — даем рандомную
-//                String[] themes = {"M", "P", "G"};
-//                themeToUnlock = themes[new Random().nextInt(themes.length)];
-//            } else if (currentStreakLevels.contains(1)) {
-//                themeToUnlock = "M"; // Для дібіла
-//            } else if (currentStreakLevels.contains(2)) {
-//                themeToUnlock = "P"; // Для нормиса
-//            } else {
-//                themeToUnlock = "G"; // Для мастера
-//            }
-//
-//            unlockedThemes.add(themeToUnlock);
-//            System.out.println("Разблокирована тема: " + themeToUnlock + "!");
-//
-//            // После разблокировки можно сбросить стрик или оставить, чтобы открывать дальше.
-//            // Оставим сброс для нового челленджа.
-//            winStreak = 0;
-//            currentStreakLevels.clear();
-//        }
-//    }
-
-//    public static void unlockNewTheme() {
-//        // 1. Полный список всех существующих тем в игре
-//        String[] allThemes = {"M", "P", "G"};
-//
-//        // 2. Создаем список тем, которые игрок еще НЕ разблокировал
-//        List<String> lockedThemes = new ArrayList<>();
-//
-//        for (String theme : allThemes) {
-//            if (!unlockedThemes.contains(theme)) {
-//                lockedThemes.add(theme);
-//            }
-//        }
-//
-//        // 3. Если еще есть что разблокировать — выбираем рандомно из закрытых
-//        if (!lockedThemes.isEmpty()) {
-//            Random random = new Random();
-//            int index = random.nextInt(lockedThemes.size());
-//            String newTheme = lockedThemes.get(index);
-//
-//     //       unlockedThemes.add(newTheme);
-//     //       JOptionPane.showMessageDialog(null, "Разблокирована новая тема: " + newTheme + "!");
-//        } else {
-//            System.out.println("Все темы уже открыты. Пора искать секреты...");
-//            JOptionPane.showMessageDialog(null, "Все темы уже открыты! \n Пора искать секреты...");
-//        }
-//    }
 }

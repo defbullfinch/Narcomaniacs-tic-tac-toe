@@ -26,6 +26,9 @@ public class LanguageManager {
                 case "chosen_theme": return "Вибрана тема: ";
                 case "default_": return "Дефолтна";
                 case "menu": return "Меню | Перемог підряд: ";
+                case "secret_level1": return "Секретний рівень: Геній";
+                case "secret_level2": return "Секретний рівень: Невидимка";
+                case "secret_level3": return "Секретний рівень: Неможливо";
             }
         } else if (currentLang.equals("ENG")) {
             switch (key) {
@@ -47,6 +50,9 @@ public class LanguageManager {
                 case "chosen_theme": return "Chosen theme: ";
                 case "default_": return "Default";
                 case "menu": return "Menu | Streak: ";
+                case "secret_level1": return "Secret level: Genius";
+                case "secret_level2": return "Secret level: Invisible";
+                case "secret_level3": return "Secret level: Impossible";
             }
         } else {
             switch (key) {
@@ -68,6 +74,9 @@ public class LanguageManager {
                 case "chosen_theme": return "Выбранная тема: ";
                 case "default_": return "Дефолтная";
                 case "menu": return "Меню | Побед подряд: ";
+                case "secret_level1": return "Секретный уровень: Гений"; //игра с гением
+                case "secret_level2": return "Секретный уровень: Невидимка"; //галюцинации
+                case "secret_level3": return "Секретный уровень: Невозможно";
             }
         }
         // Если забыли добавить перевод, вернется сам ключ (чтобы сразу заметить ошибку)
