@@ -22,7 +22,7 @@ public class PlayerProfile {
         System.out.println("Стрик сброшен до 0.");
     }
     public enum SecretStage {
-        GENIUS("Гений"),
+        GENIUS("Гений"),                                                                 //ЧТО ЄТО ГДЕ ЄТО!!!?!?!?
         INVISIBLE("Невидимка"),
         IMPOSSIBLE("Невозможно");
 

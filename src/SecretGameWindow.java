@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,10 +103,6 @@ public class SecretGameWindow extends JFrame {
             if(playerTurnTimer != null) playerTurnTimer.stop();
             this.dispose();
             StartWindow.showStartWindow();
-
-            //SwingUtilities.invokeLater(() -> {
-            //                new StartWindow().setVisible(true);
-            //            });
         });
         layeredPane.add(backButton, Integer.valueOf(2));
 
@@ -121,7 +118,7 @@ public class SecretGameWindow extends JFrame {
             timerLabel.setText(String.valueOf(timeLeft));
             if (timeLeft <= 0) {
                 playerTurnTimer.stop();
-                JOptionPane.showMessageDialog(this, "Время вышло! Бот победил.");
+                JOptionPane.showMessageDialog(this, LanguageManager.getText("time_over"));
                 prepareSecretRound();
             }
         });
@@ -140,7 +137,8 @@ public class SecretGameWindow extends JFrame {
     }
 
     private void updateTitle() {
-        titleLabel.setText("Секретный уровень: " + currentStage.name());
+        titleLabel.setFont(symbolFont);
+        titleLabel.setText(currentStage.name());
     }
 
     private void initializeBoard(JPanel panel) {
@@ -159,6 +157,28 @@ public class SecretGameWindow extends JFrame {
         }
     }
 
+    private Font loadCustomFont(String path, float size) {
+        try {
+            // 1. Указываем путь к файлу
+            File fontFile = new File(path);
+
+            // 2. Создаем базовый шрифт
+            Font baseFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+
+            // 3. Возвращаем шрифт нужного размера (важно: размер указывается как float!)
+            return baseFont.deriveFont(size);
+
+        } catch (Exception e) {
+            System.err.println("Не удалось загрузить шрифт: " + path);
+            e.printStackTrace();
+            // Запасной вариант, если файла нет
+            return new Font("Arial", Font.BOLD, (int)size);
+        }
+    }
+
+    Font titleFont = loadCustomFont("src/fonts/chiller.ttf", 36f);
+    Font symbolFont = loadCustomFont("src/fonts/RubikGlitch-Regular.ttf", 100f);
+
     private void prepareSecretRound() {
         updateTitle();
         if(playerTurnTimer != null) playerTurnTimer.stop();
@@ -175,24 +195,23 @@ public class SecretGameWindow extends JFrame {
             for (int c = 0; c < 5; c++) {
                 board[r][c].setText("");
                 board[r][c].setIcon(null);
-                board[r][c].setBorderPainted(true);
                 board[r][c].setDisabledIcon(null);
+
+                // 1. БАЗОВЫЕ НАСТРОЙКИ ДЛЯ ВСЕХ КНОПОК (полная прозрачность)
                 board[r][c].setContentAreaFilled(false);
                 board[r][c].setOpaque(false);
-                board[r][c].setForeground(Color.GREEN); // Сброс цвета текста
+                board[r][c].setForeground(Color.GREEN); // Цвет символа (можешь поменять)
 
                 if (r == 0 || r == 4 || c == 0 || c == 4) {
-                    board[r][c].setContentAreaFilled(false);
+                    // Внешняя граница: без рамки, отключена
                     board[r][c].setBorderPainted(false);
-                    board[r][c].setOpaque(false);
                     board[r][c].setEnabled(false);
                     borderPoints.add(new Point(r, c));
                 } else {
-                    board[r][c].setContentAreaFilled(true);
+                    // Внутреннее поле: РАМКА ВКЛЮЧЕНА, активна
                     board[r][c].setBorderPainted(true);
-                    board[r][c].setOpaque(true);
                     board[r][c].setEnabled(true);
-                    board[r][c].setFont(new Font("Arial", Font.BOLD, 100));
+                    board[r][c].setFont(symbolFont);           //тут если ч' откати
                 }
             }
         }
@@ -216,11 +235,14 @@ public class SecretGameWindow extends JFrame {
     }
 
     private void handlePlayerMove(int r, int c) {
+        if (!board[r][c].getText().isEmpty()) {
+            return;
+        }
+
         if (playerTurnTimer != null) playerTurnTimer.stop();
 
         BotLogic.setButton(board[r][c], playerSymbol);
 
-        // Применяем визуал (убираем фон, прячем если Невидимка)
         applyClickVisuals(board[r][c]);
 
         if (SecretBotLogic.checkWin5x5(board, playerSymbol, 0, 4)) {
@@ -229,7 +251,7 @@ public class SecretGameWindow extends JFrame {
         }
 
         if (SecretBotLogic.isSecretDraw(board)) {
-            JOptionPane.showMessageDialog(this, "Ничья! Главное поле заполнено.");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("draw_msg"));
             prepareSecretRound();
             return;
         }
@@ -237,23 +259,22 @@ public class SecretGameWindow extends JFrame {
         Timer botThinkDelay = new Timer(300, e -> {
             int[] botMove = SecretBotLogic.makeMove(board, botSymbol, playerSymbol, currentStage);
 
-            // Теперь botMove 100% вернет координаты из "снимка памяти", даже на Невидимке!
             if (botMove != null && botMove[0] != -1) {
                 applyClickVisuals(board[botMove[0]][botMove[1]]);
             }
 
             if (SecretBotLogic.checkWin5x5(board, botSymbol, 0, 4)) {
                 if (botMove != null && botMove[0] == -1) {
-                    JOptionPane.showMessageDialog(this, "АХАХА! Я ПРОАНАЛИЗИРОВАЛ ТВОЮ СТРАТЕГИЮ И МЕНЯЮ ПРАВИЛА!\n\n(Бот увидел твою вилку и сжульничал)");
+                    JOptionPane.showMessageDialog(this, LanguageManager.getText("loose_msg2"));
                 } else {
-                    JOptionPane.showMessageDialog(this, "Вы проиграли! Бот оказался хитрее.");
+                    JOptionPane.showMessageDialog(this,  LanguageManager.getText("loose_msg"));
                 }
                 prepareSecretRound();
                 return;
             }
 
             if (SecretBotLogic.isSecretDraw(board)) {
-                JOptionPane.showMessageDialog(this, "Ничья! Главное поле заполнено.");
+                JOptionPane.showMessageDialog(this, LanguageManager.getText("draw_msg"));
                 prepareSecretRound();
                 return;
             }
@@ -264,22 +285,16 @@ public class SecretGameWindow extends JFrame {
         botThinkDelay.start();
     }
 
-    // НОВЫЙ УНИВЕРСАЛЬНЫЙ МЕТОД ДЛЯ НАЖАТИЙ
     private void applyClickVisuals(JButton btn) {
-        // 1. Убираем фон кнопки всегда (для всех секретных уровней)
         btn.setContentAreaFilled(false);
         btn.setOpaque(false);
-        btn.setBorderPainted(false); // Делает ее полностью сливающейся с фоном
 
-        // 2. Дополнительная логика скрытия для Невидимки
         if (currentStage == PlayerProfile.SecretStage.INVISIBLE) {
             Timer t = new Timer(500, e -> {
-                // ВАЖНО: Мы больше НЕ стираем текст (btn.setText("");)!
-                // Мы делаем сам цвет текста (и иконку, если есть) полностью прозрачным.
                 btn.setForeground(new Color(0, 0, 0, 0));
                 btn.setIcon(null);
                 btn.setDisabledIcon(null);
-                btn.setEnabled(false); // Выключаем, чтобы игрок туда больше не кликал
+               // btn.setEnabled(false);
             });
             t.setRepeats(false);
             t.start();
@@ -289,19 +304,19 @@ public class SecretGameWindow extends JFrame {
     private void handleVictory() {
         if (currentStage == PlayerProfile.SecretStage.GENIUS) {
             currentStage = PlayerProfile.SecretStage.INVISIBLE;
-            JOptionPane.showMessageDialog(this, "Победа!\nПереход на уровень: НЕВИДИМКА (Запоминай ходы, они будут исчезать!)");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("win_msg"));
             prepareSecretRound();
         }
         else if (currentStage == PlayerProfile.SecretStage.INVISIBLE) {
             currentStage = PlayerProfile.SecretStage.IMPOSSIBLE;
-            JOptionPane.showMessageDialog(this, "Победа!\nПереход на уровень: НЕВОЗМОЖНО (У тебя будет всего 4 секунды на ход!)");
+            JOptionPane.showMessageDialog(this, LanguageManager.getText("win_msg") );
             prepareSecretRound();
         }
         else if (currentStage == PlayerProfile.SecretStage.IMPOSSIBLE) {
-            String longMsg = "ПОЗДРАВЛЯЕМ!!! ЭТО АБСОЛЮТНЫЙ ТРИУМФ!!! 🏆\n\n"
-                    + "Ты нашел уязвимость 'Троянский конь' и сломал алгоритм уровня 'Невозможно'!\n"
-                    + "Игра официально пройдена.";
-            JOptionPane.showMessageDialog(this, longMsg, "ЛЕГЕНДА!", JOptionPane.INFORMATION_MESSAGE);
+            String longMsg = "Символические парадигмы модернизации культурного пространства \n посчитали, фто ты всё же достоин услышать это...\n"
+                    + "Поздравляю вас с достижением эпистемологического апогея \n в рамках данного интеллектуального состязания.\n Ваша когнитивная стратегия, характеризующаяся ярко выраженной атипичностью \n нейрофизиологических реакций и пренебрежением \n к общепринятым канонам логического дедуцирования,\n привела вас к триумфу, который, впрочем, является столь же парадоксальным,\n сколь и неизбежным, учитывая специфическую амплитуду \n ваших мыслительных процессов, граничащую с \n абсолютной свободой от оков здравого смысла"
+                    + "\nИщи пасхалки дальше,чё завтыкал?";
+            JOptionPane.showMessageDialog(this, longMsg, "\uD83D\uDC7E", JOptionPane.INFORMATION_MESSAGE);
             endSecretGame();
         }
     }
@@ -312,7 +327,7 @@ public class SecretGameWindow extends JFrame {
         }
         Timer timer = new Timer(1500, (ActionEvent e) -> {
             this.dispose();
-            // StartWindow.showStartWindow();
+            StartWindow.showStartWindow();
         });
         timer.setRepeats(false);
         timer.start();
