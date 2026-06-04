@@ -290,11 +290,13 @@ public class SecretGameWindow extends JFrame {
         btn.setOpaque(false);
 
         if (currentStage == PlayerProfile.SecretStage.INVISIBLE) {
-            Timer t = new Timer(500, e -> {
-                btn.setForeground(new Color(0, 0, 0, 0));
+            Timer t = new Timer(500, e -> {                                   //ЧТО ЗА ХУЙНЯ??!??!?!?!??!?!?!??!!!!!!!!!!!!!!!!!!17?!??!
+                Color transparent = new Color(0, 0, 0, 0);
+                btn.setForeground(transparent);
                 btn.setIcon(null);
                 btn.setDisabledIcon(null);
                // btn.setEnabled(false);
+                btn.repaint();
             });
             t.setRepeats(false);
             t.start();
