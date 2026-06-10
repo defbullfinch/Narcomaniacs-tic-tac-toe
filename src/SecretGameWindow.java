@@ -47,6 +47,8 @@ public class SecretGameWindow extends JFrame {
     private int timeLeft = 4;
     private JLabel timerLabel;
 
+    private boolean userCanMove = true;
+
     public SecretGameWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Во весь экран
@@ -132,7 +134,9 @@ public class SecretGameWindow extends JFrame {
             playerTurnTimer.restart();
         } else {
             timerLabel.setVisible(false);
-            if(playerTurnTimer != null) playerTurnTimer.stop();
+            if(playerTurnTimer != null && playerTurnTimer.isRunning()) {
+                playerTurnTimer.stop();
+            }
         }
     }
 
@@ -183,6 +187,8 @@ public class SecretGameWindow extends JFrame {
         updateTitle();
         if(playerTurnTimer != null) playerTurnTimer.stop();
 
+        userCanMove = true;
+
         if (currentStage == PlayerProfile.SecretStage.IMPOSSIBLE) {
             botSymbol = Math.random() < 0.75 ? "x" : "o";
         } else {
@@ -222,11 +228,13 @@ public class SecretGameWindow extends JFrame {
         }
 
         if (botSymbol.equals("x")) {
+            userCanMove = false;
             SwingUtilities.invokeLater(() -> {
                 int[] move = SecretBotLogic.makeMove(board, botSymbol, playerSymbol, currentStage);
                 if (move != null && move[0] != -1) {
                     applyClickVisuals(board[move[0]][move[1]]);
                 }
+                userCanMove = true;
                 resetPlayerTimer();
             });
         } else {
@@ -235,9 +243,10 @@ public class SecretGameWindow extends JFrame {
     }
 
     private void handlePlayerMove(int r, int c) {
-        if (!board[r][c].getText().isEmpty()) {
+        if (!userCanMove || !board[r][c].getText().isEmpty()) {
             return;
         }
+        userCanMove = false;
 
         if (playerTurnTimer != null) playerTurnTimer.stop();
 
@@ -251,6 +260,7 @@ public class SecretGameWindow extends JFrame {
         }
 
         if (SecretBotLogic.isSecretDraw(board)) {
+            if (playerTurnTimer != null) playerTurnTimer.stop();
             JOptionPane.showMessageDialog(this, LanguageManager.getText("draw_msg"));
             prepareSecretRound();
             return;
@@ -278,7 +288,7 @@ public class SecretGameWindow extends JFrame {
                 prepareSecretRound();
                 return;
             }
-
+            userCanMove = true;
             resetPlayerTimer();
         });
         botThinkDelay.setRepeats(false);
