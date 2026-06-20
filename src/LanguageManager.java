@@ -12,6 +12,7 @@ public class LanguageManager {
                 case "win_msg": return "ПОТУЖНА ПЕРЕМОГА!";
                 case "draw_msg": return "Нічия.";
                 case "loose_msg":return "нікчема:) \uD83E\uDEF5";
+                case "loose_msg2":return "а мені начхати на правила)";
                 case "unlock_msg": return "Розблокована нова тема: ";
                 case "lock_hint": return "\uD83D\uDD12 Буде доступно після 5 перемог підряд";
                 case "level_2": return "Нормальний";
@@ -26,6 +27,10 @@ public class LanguageManager {
                 case "chosen_theme": return "Вибрана тема: ";
                 case "default_": return "Дефолтна";
                 case "menu": return "Меню | Перемог підряд: ";
+                case "secret_level1": return "Секретний рівень: Геній";
+                case "secret_level2": return "Секретний рівень: Невидимка";
+                case "secret_level3": return "Секретний рівень: Неможливо";
+                case "time_over": return "ЧАС ВИЧЕРПАНО! \n \uD83D\uDC22";
             }
         } else if (currentLang.equals("ENG")) {
             switch (key) {
@@ -33,6 +38,7 @@ public class LanguageManager {
                 case "win_msg": return "EPIC WIN!";
                 case "draw_msg": return "Draw.";
                 case "loose_msg":return "loser:) \uD83E\uDEF5";
+                case "loose_msg2":return "Rules? I don't give a f*ck))";
                 case "unlock_msg": return "New theme unlocked: ";
                 case "lock_hint": return "\uD83D\uDD12 Available after 5 consecutive wins";
                 case "level_2": return "Normal";
@@ -47,6 +53,10 @@ public class LanguageManager {
                 case "chosen_theme": return "Chosen theme: ";
                 case "default_": return "Default";
                 case "menu": return "Menu | Streak: ";
+                case "secret_level1": return "Secret level: Genius";
+                case "secret_level2": return "Secret level: Invisible";
+                case "secret_level3": return "Secret level: Impossible";
+                case "time_over": return "TIME'S UP! \n \uD83D\uDC22";
             }
         } else {
             switch (key) {
@@ -54,6 +64,7 @@ public class LanguageManager {
                 case "win_msg": return "ПОТУЖНА ПЄРЄМОГА!";
                 case "draw_msg": return "Ничья.";
                 case "loose_msg":return "лошара:) \uD83E\uDEF5";
+                case "loose_msg2":return "мне пофик, хажу как хачу.";
                 case "unlock_msg": return "Разблокирована новая тема: ";
                 case "lock_hint": return "\uD83D\uDD12 Будет доступно после 5 побед подряд";
                 case "level_2": return "Нормальный";
@@ -68,6 +79,10 @@ public class LanguageManager {
                 case "chosen_theme": return "Выбранная тема: ";
                 case "default_": return "Дефолтная";
                 case "menu": return "Меню | Побед подряд: ";
+                case "secret_level1": return "Секретный уровень: Гений"; //игра с гением
+                case "secret_level2": return "Секретный уровень: Невидимка"; //галюцинации
+                case "secret_level3": return "Секретный уровень: Невозможно";
+                case "time_over": return "ВРЕМЯ ВЫШЛО! \n \uD83D\uDC22";
             }
         }
         // Если забыли добавить перевод, вернется сам ключ (чтобы сразу заметить ошибку)

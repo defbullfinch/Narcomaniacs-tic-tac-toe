@@ -9,14 +9,12 @@ public class StartWindow {
         SwingUtilities.invokeLater(StartWindow::showStartWindow);
     }
 
-    // Главный метод запуска меню
     public static void showStartWindow() {
-        JFrame startFrame = new JFrame();
+        JFrame startFrame = new JFrame( PlayerProfile.winStreak+ " \uD83D\uDC40");
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startFrame.setSize(600, 450);
         startFrame.setLocationRelativeTo(null);
 
-        // Вызываем метод, который наполнит наше окно кнопками
         createStartWindow(startFrame);
 
         startFrame.setVisible(true);
@@ -45,13 +43,11 @@ public class StartWindow {
             langPanel.add(uaBtn);
             langPanel.add(engBtn);
 
-            // Общий слушатель для радиокнопок
             java.awt.event.ActionListener langListener = e -> {
                 String selected = e.getActionCommand();
                 if (selected.equals("RU")) LanguageManager.currentLang = "RU";
                 if (selected.equals("UA")) LanguageManager.currentLang = "UA";
                 if (selected.equals("ENG")) LanguageManager.currentLang = "ENG";
-                // ХАК: Закрываем старое окно и открываем новое с новым языком!
                 createStartWindow(startFrame);
             };
 
@@ -82,7 +78,7 @@ public class StartWindow {
                 new GameWindow(LanguageManager.getText("level_2_gameWindow"), 2);
             }));
 
-            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_3_gameWindow"), "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
+            levelsPanel.add(createLevelBlock(LanguageManager.getText("level_3"), "src/images/level/sigma_static.jpg", "src/images/level/sigma.gif", () -> {
                 startFrame.dispose();
                 new GameWindow(LanguageManager.getText("level_3_gameWindow"), 3);
             }));
@@ -109,7 +105,7 @@ public class StartWindow {
                 JButton defaultBtn = new JButton(LanguageManager.getText("default_"));
                 defaultBtn.addActionListener(e -> PlayerProfile.activeTheme = "DEFAULT");
                 themePanel.add(defaultBtn);
-            }// Допустим, всего тем 3 (М, П, Г).
+            }
             if (PlayerProfile.unlockedThemes.size() >= 3) {
                 JButton secretBtn = new JButton("n#!А1р*к0Кт");
                 secretBtn.setBackground(Color.BLACK);
